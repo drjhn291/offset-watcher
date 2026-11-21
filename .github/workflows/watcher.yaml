@@ -1,0 +1,44 @@
+name: Check Offsets
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: pip install requests
+
+      - name: Run offset check
+        run: python check_offsets.py
+        env:
+          WEBHOOK_ANUNCIOS: ${{ secrets.WEBHOOK_ANUNCIOS }}
+          WEBHOOK_FORTNITE: ${{ secrets.WEBHOOK_FORTNITE }}
+          WEBHOOK_RUST: ${{ secrets.WEBHOOK_RUST }}
+          WEBHOOK_FIVEM: ${{ secrets.WEBHOOK_FIVEM }}
+          WEBHOOK_CS2: ${{ secrets.WEBHOOK_CS2 }}
+          WEBHOOK_ROBLOX: ${{ secrets.WEBHOOK_ROBLOX }}
+          WEBHOOK_ROBRUN: ${{ secrets.WEBHOOK_ROBRUN }}
+          WEBHOOK_RETRAC: ${{ secrets.WEBHOOK_RETRAC }}
+          WEBHOOK_VALORANT: ${{ secrets.WEBHOOK_VALORANT }}
+          WEBHOOK_R6: ${{ secrets.WEBHOOK_R6 }}
+
+      - name: Save new state to state.json
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add state.json
+          git diff --staged --quiet || git commit -m "Update state.json"
+          git push
