@@ -124,4 +124,4 @@ offset-watcher/
 └── README.md              # Documentation & setup guide
 ```
 ## 📄 Support
-* **Support:** If you find **Footprint Audit** useful, consider supporting future updates on [Ko-fi](https://ko-fi.com/drjhn291).
+* **Support:** If you find **Offsets Watcher** useful, consider supporting future updates on [Ko-fi](https://ko-fi.com/drjhn291).
