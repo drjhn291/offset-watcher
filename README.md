@@ -123,3 +123,5 @@ offset-watcher/
 ├── state.json             # Stores the latest notified build/version ID per source
 └── README.md              # Documentation & setup guide
 ```
+## 📄 Support
+* **Support:** If you find **Footprint Audit** useful, consider supporting future updates on [Ko-fi](https://ko-fi.com/drjhn291).
