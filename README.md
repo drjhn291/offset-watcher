@@ -12,7 +12,7 @@ An automated, serverless offset tracker that monitors **17 endpoints across 3 of
 ## ⚙️ How It Works
 
 1. **Scheduled Trigger:** Every 15 minutes, an external cron trigger (`cron-job.org`) calls GitHub's `workflow_dispatch` API to start the workflow on time.
-2. **Multi-Source Scraping:** `check_offsets.py` queries the APIs of **CheatOffsets**, **Oshe Offsets**, and **Xerozify** across 17 game endpoints.
+2. **Multi-Source Scraping:** `check_offsets.py` queries the APIs of **CheatOffsets**, **KittyHook**, and **Xerozify** across 17 game endpoints.
 3. **Version & Build Comparison:** Each fetched build ID, version string, or file hash is compared against the last known version saved in `state.json`.
 4. **Instant Discord Delivery:**
    - **Game Channels:** If a new version is detected, the bot posts a rich embed pinging `@Offsets` with the ready-to-use `.hpp` (C++ header) or `.json` dump attached.
@@ -30,8 +30,8 @@ This tracker pulls live offset data from the following three public websites:
    - **Output:** Extracts `.json` offset maps or parses C++ `.hpp` code blocks from markdown.
    - **Tracked Games (5):** Fortnite, Rust, FiveM, CS2, Roblox.
 
-2. **[Oshe Offsets (`offsets.oshe.win`)](https://offsets.oshe.win)**
-   - **Endpoints:** `https://offsets.oshe.win/api/{game}/latest` & `https://offsets.oshe.win/games/{game}/{file}`
+2. **[KittyHook (`offsets.kittyhook.vip`)](https://offsets.kittyhook.vip)**
+   - **Endpoints:** `https://offsets.kittyhook.vip/api/{game}/latest` & `https://offsets.kittyhook.vip/games/{game}/{file}`
    - **Output:** Downloads `offsets.hpp` / `Offsets.hpp` / `client_dll.hpp` directly (falls back to `offsets.json` if unavailable).
    - **Tracked Games (8):** Fortnite, Rust, FiveM, CS2, Roblox, Rob Run, Retrac, Valorant.
 
@@ -42,7 +42,7 @@ This tracker pulls live offset data from the following three public websites:
 
 ### Coverage Matrix & Required Secrets
 
-| Game | CheatOffsets | Oshe Offsets | Xerozify | GitHub Secret Name |
+| Game | CheatOffsets | KittyHook | Xerozify | GitHub Secret Name |
 | :--- | :---: | :---: | :---: | :--- |
 | **Fortnite** | ✅ | ✅ | — | `WEBHOOK_FORTNITE` |
 | **Rust** | ✅ | ✅ | ✅ | `WEBHOOK_RUST` |
@@ -122,6 +122,3 @@ offset-watcher/
 ├── check_offsets.py       # Scraper, parser, and Discord webhook notifier
 ├── state.json             # Stores the latest notified build/version ID per source
 └── README.md              # Documentation & setup guide
-```
-## 📄 Support
-* **Support:** If you find **Offsets Watcher** useful, consider supporting future updates on [Ko-fi](https://ko-fi.com/drjhn291).
