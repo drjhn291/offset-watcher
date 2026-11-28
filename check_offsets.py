@@ -101,7 +101,7 @@ OSHE_GAMES = [
         "color": 0xFF0000,
         "webhook": WEBHOOKS["roblox"]
     },
-    # --- 3 Oshe-exclusive games ---
+    # --- 3 KittyHook-exclusive games ---
     {
         "slug": "robrun",
         "alt_slugs": ["rob-run"],
@@ -160,7 +160,7 @@ XEROZIFY_GAMES = [
 
 STATE_FILE = "state.json"
 CHEATOFFSETS_URL = "https://www.cheatoffsets.com/api"
-OSHE_URL = "https://offsets.oshe.win"
+OSHE_URL = "https://offsets.kittyhook.vip"
 XEROZIFY_URL = "https://xerozify.xyz/api/offsets/games"
 
 
@@ -266,7 +266,7 @@ for game in GAMES:
     except Exception as e:
         print(f"[{slug}] Error: {e}")
 
-# 2. Check all games on offsets.oshe.win
+# 2. Check all games on offsets.kittyhook.vip
 for game in OSHE_GAMES:
     slug = game["slug"]
     state_key = f"oshe_{slug}"
@@ -281,14 +281,14 @@ for game in OSHE_GAMES:
                 break
 
         if not meta_res:
-            print(f"[oshe:{slug}] Could not fetch /latest")
+            print(f"[kittyhook:{slug}] Could not fetch /latest")
             continue
 
         meta = meta_res.json()
         build_id = str(meta.get("build") or meta.get("sha256") or meta.get("version"))
 
         if state.get(state_key) != build_id:
-            print(f"[oshe:{slug}] New update detected: Build {build_id}")
+            print(f"[kittyhook:{slug}] New update detected: Build {build_id}")
 
             content_str = None
             filename = None
@@ -299,14 +299,14 @@ for game in OSHE_GAMES:
                 hpp_res = requests.get(f"{OSHE_URL}/games/{actual_slug}/{hpp_name}", timeout=15)
                 if hpp_res.status_code == 200 and hpp_res.text.strip():
                     content_str = hpp_res.text
-                    filename = f"{slug}_oshe_{build_id}.hpp"
+                    filename = f"{slug}_kittyhook_{build_id}.hpp"
                     used_url = f"{OSHE_URL}/games/{actual_slug}/{hpp_name}"
                     break
 
             if not content_str:
                 json_res = requests.get(f"{OSHE_URL}/games/{actual_slug}/offsets.json", timeout=15)
                 content_str = json_res.text
-                filename = f"{slug}_oshe_{build_id}.json"
+                filename = f"{slug}_kittyhook_{build_id}.json"
                 mime_type = "application/json"
 
             embed = {
@@ -314,7 +314,7 @@ for game in OSHE_GAMES:
                 "description": f"**Build:** `{build_id}`\n**Engine:** {game['engine']}",
                 "url": used_url,
                 "color": game["color"],
-                "footer": {"text": "offsets.oshe.win"}
+                "footer": {"text": "offsets.kittyhook.vip"}
             }
             payload = {"content": "@Offsets", "embeds": [embed]}
             files = {"file": (filename, content_str, mime_type)}
@@ -323,11 +323,11 @@ for game in OSHE_GAMES:
                 requests.post(game["webhook"], data={"payload_json": json.dumps(payload)}, files=files, timeout=15)
             state[state_key] = build_id
             updated = True
-            updated_summary.append(f"**{game['label']}** (`offsets.oshe.win` · `{build_id}`)")
+            updated_summary.append(f"**{game['label']}** (`offsets.kittyhook.vip` · `{build_id}`)")
         else:
-            print(f"[oshe:{slug}] No changes.")
+            print(f"[kittyhook:{slug}] No changes.")
     except Exception as e:
-        print(f"[oshe:{slug}] Error: {e}")
+        print(f"[kittyhook:{slug}] Error: {e}")
 
 # 3. Check games on xerozify.xyz
 for game in XEROZIFY_GAMES:
